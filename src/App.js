@@ -3,7 +3,7 @@ import FriendCard from "./components/FriendCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
 import friends from "./friends.json";
-import NavBar from "./components/NavBar";
+import Navbar from "./components/NavBar";
 
 class App extends Component {
   // Setting this.state.friends to the friends json array
@@ -15,7 +15,7 @@ class App extends Component {
 
   scoreBoard = () => {
     if (this.state.score > this.state.topscore) {
-      this.setState({topscore: this.state.score}, function() {
+      this.setState({ topscore: this.state.score }, function () {
         console.log(this.state.topscore);
       });
     }
@@ -32,19 +32,19 @@ class App extends Component {
   remixFriends = (id) => {
     this.state.friends.find((o, i) => {
       if (o.id === id) {
-        if(friends[i].count === 0){
+        if (friends[i].count === 0) {
           friends[i].count = friends[i].count + 1;
-          this.setState({score : this.state.score + 1}, function(){
+          this.setState({ score: this.state.score + 1 }, function () {
             console.log(this.state.score);
           });
           this.state.friends.sort(() => Math.random() - 0.5)
-          return true; 
+          return true;
         } else {
           this.scoreBoard();
         }
       }
       return console.log("poop");
-      
+
     });
   };
 
@@ -55,9 +55,9 @@ class App extends Component {
     // console.log(this.state.friends);
     return (
       <div>
-        <NavBar score={this.state.score} topscore={this.state.topscore}/>
+        <Navbar score={this.state.score} topscore={this.state.topscore} />
         <Wrapper>
-          <Title>Friends List</Title>
+        <Title>Welcome to Clicky!</Title>
           {this.state.friends.map(friend => (
             <FriendCard
               remixFriends={this.remixFriends}
