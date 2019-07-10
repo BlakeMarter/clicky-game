@@ -10,45 +10,52 @@ class App extends Component {
   state = {
     friends,
     score: 0,
-    topScore: 0
+    topscore: 0
   };
 
-  scoreBoard = (id) => {
-    let idArr = [""];
-    let scoreArr = [""];
-    let score = this.state.score;
-    const friendID = this.friends.map(friend => friend.id);
-    if (id !== friendID) {
-      score += 1;
-      scoreArr += scoreArr.push(score);
-      idArr += idArr.push(id);
-    } else {
-      console.log("you lost!");
-      
+  scoreBoard = () => {
+    if (this.state.score > this.state.topscore) {
+      this.setState({topscore: this.state.score}, function() {
+        console.log(this.state.topscore);
+      });
     }
-    console.log("idArr: " + idArr);
-    // console.log(event.target.value);
-    console.log("scoreArr: " + scoreArr);
-    console.log("score: " + score);
-    
-  }
+    this.state.friends.forEach(friend => {
+      friend.count = 0;
+    });
+    alert(`Womp Womp! Game Over! \nscore: ${this.state.score} \nPlease play again!`);
+    this.setState({
+      score: 0,
+    });
+    return true;
+  };
 
   remixFriends = (id) => {
-    const friendsR = friends.sort(() => Math.floor(Math.random() - 0.5));
-    const friendID = friendsR.map(friend => friend.id);
-    console.log(friendID);
-    console.log(id);
-
-    this.scoreBoard();
-    this.setState({ friends: friendsR });
+    this.state.friends.find((o, i) => {
+      if (o.id === id) {
+        if(friends[i].count === 0){
+          friends[i].count = friends[i].count + 1;
+          this.setState({score : this.state.score + 1}, function(){
+            console.log(this.state.score);
+          });
+          this.state.friends.sort(() => Math.random() - 0.5)
+          return true; 
+        } else {
+          this.scoreBoard();
+        }
+      }
+      return console.log("poop");
+      
+    });
   };
+
+
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
-    console.log(this.state.friends);
+    // console.log(this.state.friends);
     return (
       <div>
-        <NavBar />
+        <NavBar score={this.state.score} topscore={this.state.topscore}/>
         <Wrapper>
           <Title>Friends List</Title>
           {this.state.friends.map(friend => (
