@@ -3,37 +3,65 @@ import FriendCard from "./components/FriendCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
 import friends from "./friends.json";
+import NavBar from "./components/NavBar";
 
 class App extends Component {
   // Setting this.state.friends to the friends json array
   state = {
-    friends
+    friends,
+    score: 0,
+    topScore: 0
   };
 
-  removeFriend = id => {
-    // Filter this.state.friends for friends with an id not equal to the id being removed
-    const friends = this.state.friends.filter(friend => friend.id !== id);
-    // Set this.state.friends equal to the new friends array
-    this.setState({ friends });
+  scoreBoard = (id) => {
+    let idArr = [""];
+    let scoreArr = [""];
+    let score = this.state.score;
+    const friendID = this.friends.map(friend => friend.id);
+    if (id !== friendID) {
+      score += 1;
+      scoreArr += scoreArr.push(score);
+      idArr += idArr.push(id);
+    } else {
+      console.log("you lost!");
+      
+    }
+    console.log("idArr: " + idArr);
+    // console.log(event.target.value);
+    console.log("scoreArr: " + scoreArr);
+    console.log("score: " + score);
+    
+  }
+
+  remixFriends = (id) => {
+    const friendsR = friends.sort(() => Math.floor(Math.random() - 0.5));
+    const friendID = friendsR.map(friend => friend.id);
+    console.log(friendID);
+    console.log(id);
+
+    this.scoreBoard();
+    this.setState({ friends: friendsR });
   };
 
   // Map over this.state.friends and render a FriendCard component for each friend object
   render() {
+    console.log(this.state.friends);
     return (
-      <Wrapper>
-        <Title>Friends List</Title>
-        {this.state.friends.map(friend => (
-          <FriendCard
-            removeFriend={this.removeFriend}
-            id={friend.id}
-            key={friend.id}
-            name={friend.name}
-            image={friend.image}
-            occupation={friend.occupation}
-            location={friend.location}
-          />
-        ))}
-      </Wrapper>
+      <div>
+        <NavBar />
+        <Wrapper>
+          <Title>Friends List</Title>
+          {this.state.friends.map(friend => (
+            <FriendCard
+              remixFriends={this.remixFriends}
+              id={friend.id}
+              key={friend.id}
+              name={friend.name}
+              image={friend.image}
+            />
+          ))}
+        </Wrapper>
+      </div>
     );
   }
 }
