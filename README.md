@@ -23,7 +23,7 @@
 * React.js
 * Node.js
 
-<!-- ## __Demo__
-  Clicky has been deployed to GitHub pages and you can start playing this amazing game here! 
+## __Demo__
+  An example of playing this awesome game! 
 
-  https://blakemarter.github.io/clicky-game/ -->
+  ![GIF of Clicky](public/images/demo.gif)
